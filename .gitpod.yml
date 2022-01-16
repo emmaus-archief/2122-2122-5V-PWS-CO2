@@ -1,7 +1,7 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: server
-    command: bash start.sh
+  - name: webserver
+    command: npx --yes http-server -c-1 # webserver on port 8080 no cache
   - name: shell
     command: >
 
