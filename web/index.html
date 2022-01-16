@@ -69,15 +69,36 @@
 		</div>
 	  </template>
 	</main>
+  <!-- webpages met CO2 waarden -->
+  <div id="B27">
+  </div>
+  <div id="B42">
+  </div>
 
+
+
+  
   <!-- voettekst -->
 	<footer>
 		<hr>
       <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
 	</footer>
 
-	<script src="/js/basket.js"></script> <!-- functies voor de winkelwagen -->
-	
+	<!-- new scripts -->
+	<!-- https://stackoverflow.com/questions/17636528/how-do-i-load-an-html-page-in-a-div-using-javascript -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+	   <script>
+  
+		(function(){ 
+			// this code is being executed when page finished loading
+			console.log("function called");
+			  document.getElementById("B27").innerHTML='<object type="text/html" data="product.html"></object>';
+	})();
+  </script>
+	  
+<!-- old scripts	
   <script> // functies om de producten te laden en tonen op de webpagina
     
     // deze functie wordt aangeroepen als de pagina geladen is
@@ -131,10 +152,8 @@
             }
           }
 	</script>
+-->
 
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 	</script>
