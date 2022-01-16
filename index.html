@@ -3,103 +3,45 @@
 
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	 crossorigin="anonymous">
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- toast is een melding die tijdelijk rechtsboven op het scherm verschijnt -->
-  <!-- meer info op: https://www.w3schools.com/bootstrap4/bootstrap_ref_js_toasts.asp -->
-	<div class="toast" data-delay="2000">
-		<div class="toast-header">
-			<strong class="mr-auto">Product toegevoegd</strong>
-			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-		</div>
-		<div class="toast-body">
-			Ga naar je <a href="/basket.html">Winkelwagen</a> om af te rekenen
-		</div>
+
+	</main>
+	<h1>Actuele CO2 waarden op het Emmauscollege</h1>
+	<!-- plattegrond -->
+	<article>
+		hier komt een plattegrond
+	</article>
+	<!-- webpages met CO2 waarden -->
+	<div id="B27">
+	</div>
+	<div id="B42">
 	</div>
 
-  <!-- menubalk -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Shop</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="#">Artikelen <span class="sr-only">(current)</span></a>
-				</li>
-			</ul>
-			<a
-				href="basket.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Winkelwagen <span class="num_products"></span></button></a>
-		</div>
-	</nav>
-
-  <!-- lijst met producten, wordt gevuld door javascript -->
-	<main id="index">
-		<div class="container">
-			<h5>Artikelen</h5>
-			<p>Hier zie je een lijst met artikelen die je bij mij kunt bestellen.</p>
-			<p>klik op een artikel voor meer informatie<p>
-					<p>klik op de "winkelwagentje" om het artikel in je winkelwagen te stoppen</p>
-		</div>	
-    <!-- template for product info-->
-  	<template id="productcard">
-		<div class="col-sm">
-			<div class="card" onclick="openArticlePage(this)">
-				<h5 class="card-header product_title"></h5>
-				<img width="200" class="product_image card-img-top">
-				<div class="card-body">
-					<p class="product_description card-text"></p>
-					<ul class="product-properties">
-						<li><span class="propert-name">Prijs:</span><span class="product_price"></span></li>
-						<li><span class="propert-name">Code:</span><span class="product_code"></span></li>
-					</ul>
-					<input class="product_amount" type="number" value="1" min="1">
-					<input class="product_id" type="hidden" name="id" data-json="">
-					<button class="btn btn-outline-dark shop-button" onclick="event.stopPropagation();addAmountClosestToBasket(this);$('.toast').toast('show')">🛒</button>
-				</div>
-			</div>
-		</div>
-	  </template>
-	</main>
-  <!-- webpages met CO2 waarden -->
-  <div id="B27">
-  </div>
-  <div id="B42">
-  </div>
-
-
-
-  
-  <!-- voettekst -->
+	<!-- voettekst -->
 	<footer>
 		<hr>
-      <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
+		<p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
 	</footer>
 
 	<!-- new scripts -->
 	<!-- https://stackoverflow.com/questions/17636528/how-do-i-load-an-html-page-in-a-div-using-javascript -->
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-  </script>
-	   <script>
-  
-		(function(){ 
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+		</script>
+	<script>
+
+		(function () {
 			// this code is being executed when page finished loading
-			console.log("index,js geladen");
-			document.getElementById("B27").innerHTML='<object type="text/html" data="B27.html"></object>';
-			document.getElementById("B42").innerHTML='<object type="text/html" data="https://nl.wikipedia.org/wiki/Hoofdpagina"></object>';
-	})();
-  </script>
-	  
-<!-- old scripts	
+			console.log("index.js geladen");
+			document.getElementById("B27").innerHTML = '<object type="text/html" data="B27.html"></object>';
+			document.getElementById("B42").innerHTML = '<object type="text/html" data="https://nl.wikipedia.org/wiki/Hoofdpagina"></object>';
+		})();
+	</script>
+
+	<!-- old scripts	
   <script> // functies om de producten te laden en tonen op de webpagina
     
     // deze functie wordt aangeroepen als de pagina geladen is
@@ -155,12 +97,6 @@
 	</script>
 -->
 
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-	</script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-	</script>
 </body>
 
 </html>
