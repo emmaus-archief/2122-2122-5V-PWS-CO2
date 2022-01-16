@@ -39,6 +39,12 @@
 			document.getElementById("B27").innerHTML = '<object type="text/html" data="B27.html"></object>';
 			document.getElementById("B42").innerHTML = '<object type="text/html" data="https://nl.wikipedia.org/wiki/Hoofdpagina"></object>';
 		})();
+
+    function leesWaarden() {
+      console.log("CO2waarde B27=" + document.querySelector('#B27').innerHTML);
+    }
+
+    setInterval(leesWaarden, 500); // elke halve seconde de functie leesWaarden uitvoeren
 	</script>
 
 	<!-- old scripts	
