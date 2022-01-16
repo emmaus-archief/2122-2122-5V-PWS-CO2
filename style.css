@@ -1,1 +1,12 @@
 /* alle pagina's */
+
+
+/* index.html */
+.plattegrond {
+    background-color: orange;
+}
+
+.sensor-paginas {
+    /* display:none;  verberg sensorpagina's */
+    display:block;  /* toon sensorpagina's, handig om te debuggen */
+}

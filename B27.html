@@ -1,24 +1,29 @@
 <!doctype html>
 <html lang="nl">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <main id="CO2waarde">
-      1427
-    </main>
-    <footer>
-      <hr>
-       <p>Testpagina met een waarde voor de CO2. Deze waarde wordt bij de echte sensor gelezen via diverse scripts.</p>
-   </footer>
 
-    <script>
-      (function() {
-        // deze code wordt uitgevoerd als de pagina geladen is
-        console.log("B27.html: B27.html geladen");
-        console.log("B27.html: CO2waarde B27=" + document.querySelector('#CO2waarde').innerHTML);
-      })();
-    </script>
-   </body>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main <h1>B27</h1>
+    <div id="CO2waarde">
+      1427
+    </div>
+  </main>
+  <footer>
+    <hr>
+    <p>Testpagina met een waarde voor de CO2. Deze waarde wordt bij de echte sensor gelezen via diverse scripts.</p>
+  </footer>
+
+  <script>
+    (function () {
+      // deze code wordt uitgevoerd als de pagina geladen is
+      console.log("B27.html: B27.html geladen");
+      console.log("B27.html: CO2waarde B27=" + document.querySelector('#CO2waarde').innerHTML);
+    })();
+  </script>
+</body>
+
 </html>

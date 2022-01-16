@@ -2,57 +2,57 @@
 <html lang="nl">
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-	</main>
-	<h1>Actuele CO2 waarden op het Emmauscollege</h1>
-	<!-- plattegrond -->
-	<article>
-		hier komt een plattegrond
-	</article>
-	<!-- webpages met CO2 waarden -->
-	<iframe id="B27" src="B27.html"></iframe>
-	<iframe id="B42" src="https://nl.wikipedia.org/wiki/Hoofdpagina"></iframe>
+  <main>
+    <h1>Actuele CO2 waarden op het Emmauscollege</h1>
+    <!-- plattegrond -->
+    <article class="plattegrond">
+      hier komt een plattegrond
+    </article>
+    <!-- webpages met CO2 waarden -->
+    <article class="sensor-paginas">
+      <iframe id="B27" src="B27.html"></iframe>
+      <iframe id="B42" src="https://nl.wikipedia.org/wiki/Hoofdpagina"></iframe>
+    </article>
+  </main>
 
-	<!-- voettekst -->
-	<footer>
-		<hr>
-		<p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
-	</footer>
+  <!-- voettekst -->
+  <footer>
+    <hr>
+    <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
+  </footer>
 
-	<!-- new scripts -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-		</script>
-	<script>
-    
-		(function () {
-			// this code is being executed when page finished loading
-			console.log("index.html: index.html geladen");  
-      leesWaarden(); 
-		})();
+  <!-- new scripts -->
+  <script>
+
+    (function () {
+      // this code is being executed when page finished loading
+      console.log("index.html: index.html geladen");
+      leesWaarden();
+    })();
 
     function leesWaarden() {
       // Next trick thanx to
       // https://stackoverflow.com/questions/26630519/queryselector-for-web-elements-inside-iframe
       element = document.querySelector("#B27").contentWindow.document.querySelector("#CO2waarde")
-      if(element != null) {
+      if (element != null) {
         console.log("index.html: CO2waarde B27=" + element.innerHTML);
-      } 
+      }
       else {
         console.log("index.html: CO2waarde B27= nog niet geladen, nieuwe poging over 100 ms");
         setTimeout(leesWaarden, 100);
       };
     }
 
- 
-	</script>
 
-	<!-- old scripts	
+  </script>
+
+  <!-- old scripts	
   <script> // functies om de producten te laden en tonen op de webpagina
     
     // deze functie wordt aangeroepen als de pagina geladen is
