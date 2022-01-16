@@ -15,10 +15,8 @@
 		hier komt een plattegrond
 	</article>
 	<!-- webpages met CO2 waarden -->
-	<div id="B27">
-	</div>
-	<div id="B42">
-	</div>
+	<iframe id="B27" src="B27.html"></iframe>
+	<iframe id="B42" src="https://nl.wikipedia.org/wiki/Hoofdpagina"></iframe>
 
 	<!-- voettekst -->
 	<footer>
@@ -31,23 +29,29 @@
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
 		</script>
 	<script>
-
+    
 		(function () {
 			// this code is being executed when page finished loading
-			console.log("index.js geladen");
-      // Next trick thanx to
-      // https://stackoverflow.com/questions/17636528/how-do-i-load-an-html-page-in-a-div-using-javascript
-			document.getElementById("B27").innerHTML = '<iframe src="B27.html"></iframe>';
-			document.getElementById("B42").innerHTML = '<object type="text/html" data="https://nl.wikipedia.org/wiki/Hoofdpagina"></object>';
+			console.log("index.html: index.html geladen");   
 		})();
 
+    setTimeout(leesWaarden, 0); // na 500 ms de functie leesWaarden uitvoeren
+    // LETOP: als de iframes nog niet geladen zijn na 500 ms dan gaat het fout
+    
     function leesWaarden() {
       // Next trick thanx to
       // https://stackoverflow.com/questions/26630519/queryselector-for-web-elements-inside-iframe
-      console.log("CO2waarde B27=" + document.querySelector("#B27 iframe").contentWindow.document.querySelector("#CO2waarde").innerHTML);
+      element = document.querySelector("#B27").contentWindow.document.querySelector("#CO2waarde")
+      if(element != null) {
+        console.log("index.html: CO2waarde B27=" + element.innerHTML);
+      } 
+      else {
+        console.log("index.html: CO2waarde B27= nog niet geladen, nieuwe poging over 100 ms");
+        setTimeout(leesWaarden, 100);
+      };
     }
 
-    setInterval(leesWaarden, 500); // elke halve seconde de functie leesWaarden uitvoeren
+ 
 	</script>
 
 	<!-- old scripts	
