@@ -1,16 +1,14 @@
 {
   "dependencies": {
     "express": "^4.17.1",
-    "better-sqlite3": "^7.4.3",
-    "nodemailer": "^6.6.5"
   },
-  "name": "5V-webshop",
+  "name": "5V-PWS-CO2",
   "version": "1.0.0",
-  "main": "start.sh",
+  "main": "index.html",
   "scripts": {
-    "start": "bash start.sh"
+    "start": "index.html"
   },
-  "repository": "https://github.com/emmauscollege/5V-webshop.git",
+  "repository": "https://github.com/svgeest/5V-PWS-CO2.git",
   "author": "svgeest <gee@emmauscollege.nl>",
   "license": "MIT"
 }
