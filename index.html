@@ -27,7 +27,6 @@
 	</footer>
 
 	<!-- new scripts -->
-	<!-- https://stackoverflow.com/questions/17636528/how-do-i-load-an-html-page-in-a-div-using-javascript -->
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
 		</script>
@@ -36,12 +35,16 @@
 		(function () {
 			// this code is being executed when page finished loading
 			console.log("index.js geladen");
-			document.getElementById("B27").innerHTML = '<object type="text/html" data="B27.html"></object>';
+      // Next trick thanx to
+      // https://stackoverflow.com/questions/17636528/how-do-i-load-an-html-page-in-a-div-using-javascript
+			document.getElementById("B27").innerHTML = '<iframe src="B27.html"></iframe>';
 			document.getElementById("B42").innerHTML = '<object type="text/html" data="https://nl.wikipedia.org/wiki/Hoofdpagina"></object>';
 		})();
 
     function leesWaarden() {
-      console.log("CO2waarde B27=" + document.querySelector('#B27').innerHTML);
+      // Next trick thanx to
+      // https://stackoverflow.com/questions/26630519/queryselector-for-web-elements-inside-iframe
+      console.log("CO2waarde B27=" + document.querySelector("#B27 iframe").contentWindow.document.querySelector("#CO2waarde").innerHTML);
     }
 
     setInterval(leesWaarden, 500); // elke halve seconde de functie leesWaarden uitvoeren
