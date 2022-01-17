@@ -16,8 +16,8 @@
     </article>
     <!-- webpages met CO2 waarden -->
     <article class="sensor-paginas">
-      <iframe id="B27" src="B27.html"></iframe>
-      <iframe id="B42" src="https://nl.wikipedia.org/wiki/Hoofdpagina"></iframe>
+      <iframe id="B27" src="https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029"></iframe>
+      <iframe id="B42" src="https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029"></iframe>
     </article>
   </main>
 
@@ -37,15 +37,21 @@
     })();
 
     function leesWaarden() {
-      // Next trick thanx to
+      // Code hieronder met dank aan
       // https://stackoverflow.com/questions/26630519/queryselector-for-web-elements-inside-iframe
-      element = document.querySelector("#B27").contentWindow.document.querySelector("#CO2waarde")
-      if (element != null) {
-        console.log("index.html: CO2waarde B27=" + element.innerHTML);
+      // je krijgt een cross-origin error in je browser
+      // die kun je alleen voorkomen door in je browser-instellingen de cross-origin check uit te zetten, zie
+      // https://stackoverflow.com/questions/25098021/securityerror-blocked-a-frame-with-origin-from-accessing-a-cross-origin-frame
+      element = document.querySelector("#B27").contentWindow.document.querySelector(".AirQualityBar_barValue__lXnv2") // zoek html-element met CO2waarde
+      if (element != null) { // als element bestaat en dus is geladen
+        // Code hieronder met dank aan:
+        // https://www.encodedna.com/javascript/how-to-get-numbers-from-a-string-in-javascript.htm
+        CO2waarde = element.innerHTML.match(/\d+/); // haal eerste getal uit string
+        console.log("index.html: CO2waarde B27=" + CO2waarde);
       }
       else {
-        console.log("index.html: CO2waarde B27= nog niet geladen, nieuwe poging over 100 ms");
-        setTimeout(leesWaarden, 100);
+        console.log("index.html: CO2waarde B27= nog niet geladen, nieuwe poging over 500 ms");
+        setTimeout(leesWaarden, 500);
       };
     }
 
