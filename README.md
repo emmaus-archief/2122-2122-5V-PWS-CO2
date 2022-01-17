@@ -21,9 +21,9 @@ Hierbij lopen we aan tegen een beveiligingsprobleem op het gebied van cross-orig
 
 ## uitproberen
 Je kunt het template zelf uitproberen in Replit: 
-[Run on Repl.it](https://replit.com/github/emmauscollege/5HV-webshop-template) <br>
+[Run on Repl.it](https://replit.com/github/svgeest/2122-5V-PWS-CO2) <br>
 of in Gitpod (gitpod is zonder mailen van orders en zonder permanent hosten):
-[Run on Gitpod](https://gitpod.io/#https://github.com/emmauscollege/5HV-webshop-template)
+[Run on Gitpod](https://gitpod.io/#https://github.com/svgeest/2122-5V-PWS-CO2)
 
 ## hosten
 Als je de site wilt tonen op een willekeurige computer op een moment dat jij niet ingelogged bent op github of replit, dan kan dat alleen als je de site in replit hebt gezet. Gitpod sluit namelijk de webserver af als je een tijdje niets gedaan hebt. Replit laat de site slapen, maar wekt die binnen enkele seconden als iemand hem opvraagt
