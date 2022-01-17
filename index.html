@@ -17,7 +17,7 @@
     <!-- webpages met CO2 waarden -->
     <article class="sensor-paginas">
       <iframe id="B27" src="https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029"></iframe>
-      <iframe id="B42" src="https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029"></iframe>
+      <iframe id="B42" src="https://www.air-insight.com/rooms/be582ae3-e935-4401-8b16-4286121de8bb"></iframe>
     </article>
   </main>
 
@@ -30,18 +30,25 @@
   <!-- new scripts -->
   <script>
 
-    (function () {
-      // this code is being executed when page finished loading
+    (function () { // deze code wordt uitgevoerd als de pagina (index.html) is geladen
       console.log("index.html: index.html geladen");
-      leesWaarden();
+
+      leesWaarden(); // lees de CO2 waarden
+
+      setTimeout(function () { location.reload() }, 1000*60*5); // laadt pagina opnieuw na 5 minuten
     })();
 
     function leesWaarden() {
+      allesGelezen = true;
+
+      // B27
       // Code hieronder met dank aan
       // https://stackoverflow.com/questions/26630519/queryselector-for-web-elements-inside-iframe
       // je krijgt een cross-origin error in je browser
-      // die kun je alleen voorkomen door in je browser-instellingen de cross-origin check uit te zetten, zie
+      // die kun je voorkomen door in je browser-instellingen de cross-origin check uit te zetten, zie
       // https://stackoverflow.com/questions/25098021/securityerror-blocked-a-frame-with-origin-from-accessing-a-cross-origin-frame
+      // maar misschien krijgen we het ook werkend met een reverse-proxy oplossing zoals hier beschreven:
+      // https://stackoverflow.com/questions/3076414/ways-to-circumvent-the-same-origin-policy
       element = document.querySelector("#B27").contentWindow.document.querySelector(".AirQualityBar_barValue__lXnv2") // zoek html-element met CO2waarde
       if (element != null) { // als element bestaat en dus is geladen
         // Code hieronder met dank aan:
@@ -50,69 +57,28 @@
         console.log("index.html: CO2waarde B27=" + CO2waarde);
       }
       else {
-        console.log("index.html: CO2waarde B27= nog niet geladen, nieuwe poging over 500 ms");
-        setTimeout(leesWaarden, 500);
+        allesGelezen = false;
+        console.log("index.html: CO2waarde B27= nog niet geladen");
       };
+
+      // B42
+      element = document.querySelector("#B42").contentWindow.document.querySelector(".AirQualityBar_barValue__lXnv2") // zoek html-element met CO2waarde
+      if (element != null) { // als element bestaat en dus is geladen
+        CO2waarde = element.innerHTML.match(/\d+/); // haal eerste getal uit string
+        console.log("index.html: CO2waarde B42=" + CO2waarde);
+      }
+      else {
+        allesGelezen = false;
+        console.log("index.html: CO2waarde B42= nog niet geladen");
+      };
+
+      if (allesGelezen == false) {
+        console.log("index.html: nog niet alle CO2waarde geladen, nieuwe poging over 500 ms");
+        setTimeout(leesWaarden, 500);
+      }
     }
 
-
   </script>
-
-  <!-- old scripts	
-  <script> // functies om de producten te laden en tonen op de webpagina
-    
-    // deze functie wordt aangeroepen als de pagina geladen is
-    // deze functie laadt de producten via de API
-		(function() { 
-        // your page initialization code here
-        // the DOM will be available here
-       
-        // laad winkelmandje
-        updateBasket()
-
-        // laad producten
-        // de functie showProducts wordt aangeroepen als er antwoord van de API is
-        var request = new XMLHttpRequest()
-        request.open('GET', '/api/products', true) 
-        request.onload = showProducts 
-        request.send() 
-
-      })();
-
-    // deze functie zet de producten op het scherm
-    // nadat de API is aangeroepen
-    function showProducts() {
-      console.log("showProducts called")
-      const template = document.querySelector('#productcard');
-      const app = document.getElementById('index')
-      
-      const container = document.createElement('div')
-      container.setAttribute('class', 'container row article-container')
-
-      app.appendChild(container)
-        
-            var data = JSON.parse(this.response) // vertaal response van API naar array met producten
-            for (let row in data) { // herhaal voor elke product
-              const product = data[row]
-              var name = product.name.substr(0, 35)
-              if(name.length < product.name.length) {
-                name = name + '...'
-              }
-              // voeg product toe aan DOM, 
-              // zodat deze zichtbaar wordt op de webpagina
-              const clone = template.content.cloneNode(true);
-              clone.querySelector(".product_title").textContent = name
-              clone.querySelector(".product_description").textContent =`${product.description.substr(0, 100)}...`
-              clone.querySelector(".product_price").textContent = `€ ${product.price.toFixed(2)}`
-              clone.querySelector(".product_code").textContent = product.code
-              clone.querySelector(".product_id").value = product.id
-              clone.querySelector(".product_id").dataset.json = JSON.stringify(product)
-              clone.querySelector(".product_image").src =`/images/${product.id}.jpg`
-              container.appendChild(clone)
-            }
-          }
-	</script>
--->
 
 </body>
 
