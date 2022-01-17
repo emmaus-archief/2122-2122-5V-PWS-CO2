@@ -49,6 +49,8 @@
       // https://stackoverflow.com/questions/25098021/securityerror-blocked-a-frame-with-origin-from-accessing-a-cross-origin-frame
       // maar misschien krijgen we het ook werkend met een reverse-proxy oplossing zoals hier beschreven:
       // https://stackoverflow.com/questions/3076414/ways-to-circumvent-the-same-origin-policy
+      // en dit is misschien ook een oplossingsrichting:
+      // https://replit.com/@7ih/cors-anywhere?v=1
       element = document.querySelector("#B27").contentWindow.document.querySelector(".AirQualityBar_barValue__lXnv2") // zoek html-element met CO2waarde
       if (element != null) { // als element bestaat en dus is geladen
         // Code hieronder met dank aan:
