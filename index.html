@@ -14,11 +14,6 @@
     <article class="plattegrond">
       hier komt een plattegrond
     </article>
-    <!-- webpages met CO2 waarden -->
-    <article class="sensor-paginas">
-      <iframe id="B27" src="https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029"></iframe>
-      <iframe id="B42" src="https://www.air-insight.com/rooms/be582ae3-e935-4401-8b16-4286121de8bb"></iframe>
-    </article>
   </main>
 
   <!-- voettekst -->
@@ -26,107 +21,55 @@
     <hr>
     <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
   </footer>
- 
+
   <!-- api scripts -->
   <script>
-  (function() { // deze code wordt uitgevoerd als de pagina is geladen en de DOM beschikbaar is
+    // https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029 QR-code B27
+    // https://www.air-insight.com/rooms/be582ae3-e935-4401-8b16-4286121de8bb QR-code B42
+
+    (function () { // deze code wordt uitgevoerd als de pagina is geladen en de DOM beschikbaar is
       console.log("pagina geladen")
       var request = new XMLHttpRequest()
       request.open('GET', 'https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%222022-01-21%22', true) // Link verschilt per sensor en kan worden gevonden in de ontwikkelmodus van de browser bij het laden van de pagina op de QR-code
-      request.setRequestHeader('Content-Type','application/json')
-      request.setRequestHeader('Authorization','lkDvA5MDW8vA#N5XVV8vkvA5AqJX*1') // Authorization is in de praktijk hetzelfde voor alle sensoren
-      request.setRequestHeader('x-iot-unica-tenantid','4c4411d0-1947-4fc5-8bd3-08d945fda0ae') // tenantid is in de praktijk hetzelfde voor alle sensoren binnen onze school
+      request.setRequestHeader('Content-Type', 'application/json')
+      request.setRequestHeader('Authorization', 'lkDvA5MDW8vA#N5XVV8vkvA5AqJX*1') // Authorization is in de praktijk hetzelfde voor alle sensoren
+      request.setRequestHeader('x-iot-unica-tenantid', '4c4411d0-1947-4fc5-8bd3-08d945fda0ae') // tenantid is in de praktijk hetzelfde voor alle sensoren binnen onze school
       request.onload = showProducts // de functie showProducts wordt aangeroepen als er antwoord van de API is
-      request.send() 
+      request.send()
       console.log("request sent")
 
     })();
 
-  // deze functie zet de producten op het scherm
-  // nadat de API is aangeroepen
-  function showProducts() {
-    console.log("showProducts called")
-    console.log(this.response)
-    var data = JSON.parse(this.response) // vertaal response van API naar array met producten
-    console.log(data)
-    
-    /*
-          for (let row in data) { // herhaal voor elke product
-            const product = data[row]
-            var name = product.name.substr(0, 35)
-            if(name.length < product.name.length) {
-              name = name + '...'
+    // deze functie zet de producten op het scherm
+    // nadat de API is aangeroepen
+    function showProducts() {
+      console.log("showProducts called")
+      console.log(this.response)
+      var data = JSON.parse(this.response) // vertaal response van API naar array met producten
+      console.log(data)
+
+      /*
+            for (let row in data) { // herhaal voor elke product
+              const product = data[row]
+              var name = product.name.substr(0, 35)
+              if(name.length < product.name.length) {
+                name = name + '...'
+              }
+              // voeg product toe aan DOM, 
+              // zodat deze zichtbaar wordt op de webpagina
+              const clone = template.content.cloneNode(true);
+              clone.querySelector(".product_title").textContent = name
+              clone.querySelector(".product_description").textContent =`${product.description.substr(0, 100)}...`
+              clone.querySelector(".product_price").textContent = `€ ${product.price.toFixed(2)}`
+              clone.querySelector(".product_code").textContent = product.code
+              clone.querySelector(".product_id").value = product.id
+              clone.querySelector(".product_id").dataset.json = JSON.stringify(product)
+              clone.querySelector(".product_image").src =`/images/${product.id}.jpg`
+              container.appendChild(clone)
             }
-            // voeg product toe aan DOM, 
-            // zodat deze zichtbaar wordt op de webpagina
-            const clone = template.content.cloneNode(true);
-            clone.querySelector(".product_title").textContent = name
-            clone.querySelector(".product_description").textContent =`${product.description.substr(0, 100)}...`
-            clone.querySelector(".product_price").textContent = `€ ${product.price.toFixed(2)}`
-            clone.querySelector(".product_code").textContent = product.code
-            clone.querySelector(".product_id").value = product.id
-            clone.querySelector(".product_id").dataset.json = JSON.stringify(product)
-            clone.querySelector(".product_image").src =`/images/${product.id}.jpg`
-            container.appendChild(clone)
-          }
-    */
-  }
-</script>
-
-  <!-- iframe scripts -->
-  /*
-
-    (function () { // deze code wordt uitgevoerd als de pagina (index.html) is geladen
-      console.log("index.html: index.html geladen");
-
-      leesWaarden(); // lees de CO2 waarden
-
-      setTimeout(function () { location.reload() }, 1000*60*5); // laadt pagina opnieuw na 5 minuten
-    })();
-
-    function leesWaarden() {
-      allesGelezen = true;
-
-      // B27
-      // Code hieronder met dank aan
-      // https://stackoverflow.com/questions/26630519/queryselector-for-web-elements-inside-iframe
-      // je krijgt een cross-origin error in je browser
-      // die kun je voorkomen door in je browser-instellingen de cross-origin check uit te zetten, zie
-      // https://stackoverflow.com/questions/25098021/securityerror-blocked-a-frame-with-origin-from-accessing-a-cross-origin-frame
-      // maar misschien krijgen we het ook werkend met een reverse-proxy oplossing zoals hier beschreven:
-      // https://stackoverflow.com/questions/3076414/ways-to-circumvent-the-same-origin-policy
-      // en dit is misschien ook een oplossingsrichting:
-      // https://replit.com/@7ih/cors-anywhere?v=1
-      element = document.querySelector("#B27").contentWindow.document.querySelector(".AirQualityBar_barValue__lXnv2") // zoek html-element met CO2waarde
-      if (element != null) { // als element bestaat en dus is geladen
-        // Code hieronder met dank aan:
-        // https://www.encodedna.com/javascript/how-to-get-numbers-from-a-string-in-javascript.htm
-        CO2waarde = element.innerHTML.match(/\d+/); // haal eerste getal uit string
-        console.log("index.html: CO2waarde B27=" + CO2waarde);
-      }
-      else {
-        allesGelezen = false;
-        console.log("index.html: CO2waarde B27= nog niet geladen");
-      };
-
-      // B42
-      element = document.querySelector("#B42").contentWindow.document.querySelector(".AirQualityBar_barValue__lXnv2") // zoek html-element met CO2waarde
-      if (element != null) { // als element bestaat en dus is geladen
-        CO2waarde = element.innerHTML.match(/\d+/); // haal eerste getal uit string
-        console.log("index.html: CO2waarde B42=" + CO2waarde);
-      }
-      else {
-        allesGelezen = false;
-        console.log("index.html: CO2waarde B42= nog niet geladen");
-      };
-
-      if (allesGelezen == false) {
-        console.log("index.html: nog niet alle CO2waarde geladen, nieuwe poging over 500 ms");
-        setTimeout(leesWaarden, 500);
-      }
+      */
     }
-
-  */
+  </script>
 
 </body>
 
