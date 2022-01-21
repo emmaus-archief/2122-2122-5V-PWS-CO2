@@ -20,7 +20,7 @@ Hierbij lopen we aan tegen een beveiligingsprobleem op het gebied van cross-orig
 
 Optie 2 is werkend gemaakt voor [vangeest](https://github.com/vangeest), maar met dank aan [stemvork](https://github.com/stemvork) werd het mogelijk om toch startcode te maken voor optie 1
 
-# Uitleg hoe de api werkt
+## Uitleg hoe de api werkt
 Onderzoek om de API van Air-insight te kunnen gebruiken:
 - De URL die ik gebruikte was die van C24: (link gaat direct naar grafiek met alle datapunten, in plaats van de informatie zoals de screenshot is) https://www.air-insight.com/rooms/f30251e5-a393-4a06-a661-98f6b1997e8b/detail
 - Die pagina heb ik geladen met de Chrome DevTools aan. Ik heb gefilterd op Fetch/XHR en zag twee interessante aanvragen:
@@ -57,7 +57,7 @@ Onderzoek om de API van Air-insight te kunnen gebruiken:
 - curl --header 'Content-Type: application/json' --header 'Authorization: lkDvA5MDW8vA#N5XVV8vkvA5AqJX*1' --header 'x-iot-unica-tenantid: 4c4411d0-1947-4fc5-8bd3-08d945fda0ae' "https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%222022-01-21%22"
 - Om met de API te praten zijn dus de Authorization en X-IOT-Unica-TentantId waarden nodig. Die laatste lijkt mij constant voor het Emmauscollege en de eerste moet haast wel constant zijn. Ik kan in ieder geval niet vinden waar de requests deze Authorization key vandaan halen "lkDvA5MDW8vA#N5XVV8vkvA5AqJX*1".
 
-## Uitleg over hoe we plattegrond tekenen
+# Uitleg over hoe we plattegrond tekenen
 Twee opties liggen voor de hand:
 1. manipulatie van de DOM via javascript waarbij we gekleurde rechthoeken kunnen positioneren
 2. canvas maken waarin we de p5js library gebruiken om te tekenen]
