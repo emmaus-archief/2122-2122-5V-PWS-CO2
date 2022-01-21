@@ -73,7 +73,9 @@ of in Gitpod (gitpod is zonder mailen van orders en zonder permanent hosten):
 [Run on Gitpod](https://gitpod.io/#https://github.com/svgeest/2122-5V-PWS-CO2)
 
 ## Hosten
-Als je de site wilt tonen op een willekeurige computer op een moment dat jij niet ingelogged bent op github of replit, dan kan dat alleen als je de site in replit hebt gezet. Gitpod sluit namelijk de webserver af als je een tijdje niets gedaan hebt. Replit laat de site slapen, maar wekt die binnen enkele seconden als iemand hem opvraagt
+Als je de site wilt tonen op een willekeurige computer op een moment dat jij niet ingelogged bent op github of replit, dan kan dat niet in gitpod. Gitpod sluit namelijk de webserver af als je een tijdje niets gedaan hebt. In Replit kun je wel je website hosten. Replit laat de site slapen, maar wekt die binnen enkele seconden als iemand hem opvraagt. Het eenvoudigst is hosten in GitHub. Dit heet GitHub Pages en kun je aanzetten onder de instellingen van je repo. De hosting in GitHub hebben we aangezet. 
+
+[Bekijk op GitHub Pages](https://emmaus-5v.github.io/2122-5V-PWS-CO2/)
 
 # Plan van aanpak
 Werk de planning af van boven naar beneden<br>
