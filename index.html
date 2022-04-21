@@ -44,10 +44,12 @@
     // nadat de API is aangeroepen
     function showProducts() {
       console.log("showProducts called")
-      console.log(this.response)
+      //console.log(this.response)
       var data = JSON.parse(this.response) // vertaal response van API naar array met producten
-      console.log(data)
-
+      var CO2vuil =  data.rows[data.rows.length-1].val // vuile formaat is String n:xxxx
+      var CO2 = parseInt(CO2vuil.replace("n:", ""));  
+      console.log (CO2);
+      
       /*
             for (let row in data) { // herhaal voor elke product
               const product = data[row]
@@ -69,6 +71,7 @@
             }
       */
     }
+
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"> </script>
@@ -79,7 +82,7 @@
   
    function preload() {
       beganegrondImg = loadImage('afbeeldingen/beganegrond.png');
-      verdieping1lImg = loadImage('afbeeldingen/verdieping1.png');
+      verdieping1Img = loadImage('afbeeldingen/verdieping1.png');
       verdieping2Img = loadImage('afbeeldingen/verdieping2.png');
     }
     
@@ -89,23 +92,33 @@
 
     
     var tekenVerdiepingBG = function(){
-      rect(0,0, width, height);
-      image(beganegrondImg, 0, 0, widht, heigth);
-      
+     
       
     };
 
     var tekenVerdieping1 = function(){
-
+      rect(0,0, width, height);
+      image(verdieping1Img, 0, 0, width);
+      // console.log(mouseX);
+      // console.log(mouseY);
+      fill ('rgba(255,255,255,0)');
+      rect (902,147,82,43); //b27
+      
     };
 
     var tekenVerdieping2 = function(){
 
     };
 
+    var rood = function (){
+      if (getal > 1400)
+      fill ('rgba (255, 0, 0, 0.25)')
+    }
+
+
 
     function draw(){
-      tekenVerdiepingBG();
+      tekenVerdieping1();
     };
 
   </script>
