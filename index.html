@@ -34,7 +34,7 @@
     (function () { // deze code wordt uitgevoerd als de pagina is geladen en de DOM beschikbaar is
       console.log("pagina geladen")
       var request = new XMLHttpRequest()
-      request.open('GET', 'https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%222022-05-06%22', true) // Link verschilt per sensor en kan worden gevonden in de ontwikkelmodus van de browser bij het laden van de pagina op de QR-code
+      request.open('GET', 'https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%222022-01-21%22', true) // Link verschilt per sensor en kan worden gevonden in de ontwikkelmodus van de browser bij het laden van de pagina op de QR-code
       request.setRequestHeader('Content-Type', 'application/json')
       request.setRequestHeader('Authorization', 'lkDvA5MDW8vA#N5XVV8vkvA5AqJX*1') // Authorization is in de praktijk hetzelfde voor alle sensoren
       request.setRequestHeader('x-iot-unica-tenantid', '4c4411d0-1947-4fc5-8bd3-08d945fda0ae') // tenantid is in de praktijk hetzelfde voor alle sensoren binnen onze school
@@ -49,15 +49,14 @@
       dagvuil = dagvuil.toJSON(); // zet de dag in het goede formaat
       dag = dagvuil.slice (0,10); //haalt de tijd weg, hierdoor blijft jaar-maand-dag over
       dag = dag.toString();
-      dag = dag + '%22'; // voegt %22 voor de link
       console.log (dagvuil);
       console.log (dag);
     }
 
     function getLink() {
+      dag = dag + '%22'; // voegt %22 voor de link
       link = 'https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%22' + dag; //voegt de dag toe aan de link
       console.log(link);
-      
     }
 
     // deze functie zet de producten op het scherm
@@ -148,9 +147,6 @@
     };
 
     
-
-
-
     function draw(){
       tekenVerdieping1();
   
