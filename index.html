@@ -27,7 +27,7 @@
     // https://www.air-insight.com/rooms/7fa1088d-3402-470c-88bf-9b351c5fd029 QR-code B27
     // https://www.air-insight.com/rooms/be582ae3-e935-4401-8b16-4286121de8bb QR-code B42
     var CO2;
-    var link;
+    var linkB27;
     var dag;
     var dagvuil;
 
@@ -50,13 +50,14 @@
       dag = dagvuil.slice (0,10); //haalt de tijd weg, hierdoor blijft jaar-maand-dag over
       dag = dag.toString();
       console.log (dagvuil);
-      console.log (dag);
     }
 
     function getLink() {
-      dag = dag + '%22'; // voegt %22 voor de link
-      link = 'https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%22' + dag; //voegt de dag toe aan de link
-      console.log(link);
+      dag = dag + '%22'; // voegt %22 voor de 
+      console.log (dag);
+      linkB27 =  'https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%22' + dag ; //voegt de dag toe aan de link
+      //linkB27 = linkB27.toJSON();
+      console.log(linkB27);
     }
 
     // deze functie zet de producten op het scherm
