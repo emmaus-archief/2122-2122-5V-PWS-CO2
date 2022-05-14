@@ -13,6 +13,8 @@
 
     <label for="datum">Datum:</label>
     <input type="date" id="datum" name="datum">
+    <label for="hour">Uur:</label>
+    <input type="number" id="hour" name="hour" min="00" max="23">
     <button onclick="onFetchDataClick()">fetch</button>
 
     <!-- plattegrond -->
@@ -35,13 +37,13 @@
     var linkB27;
     var dag;
     var dagvuil;
-
+    var uur = "00";
     var gebouwen;
 
     (function () {// deze code wordt uitgevoerd als de pagina is geladen en de DOM beschikbaar is
       console.log("pagina geladen")
       datum.max = new Date().toJSON().split("T")[0]
-      fetchGebouwen()
+      //fetchGebouwen()
     }())
 
     function fetchGebouwen(){
@@ -69,6 +71,8 @@
     function onFetchDataClick() {
       event.preventDefault()
       const datumVeldWaarde = document.getElementById("datum").value
+      uur = document.getElementById("hour").value
+      uur = (uur < 10 ? '0' : '') + uur
       fetchData(datumVeldWaarde)
     }
 
@@ -78,7 +82,7 @@
       console.log("showProducts called")
       console.log(this.response)
       var data = JSON.parse(this.response) // vertaal response van API naar array met producten
-      var CO2vuil = data.rows[data.rows.length - 1].val // vuile formaat is String n:xxxx
+      var CO2vuil = data.rows.find(r => r.ts.includes(`T${uur}`)).val // vuile formaat is String n:xxxx
       CO2 = parseInt(CO2vuil.replace("n:", ""));  // haalt de n weg 
       console.log(CO2);
 
