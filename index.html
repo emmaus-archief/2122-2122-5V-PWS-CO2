@@ -14,8 +14,9 @@
     <label for="datum">Datum:</label>
     <input type="date" id="datum" name="datum">
     <label for="hour">Uur:</label>
+   <!-- <input type="time" id="hourField" name="hour" min="00" max="23"> -->
     <input type="number" id="hourField" name="hour" min="00" max="23">
-    <button onclick="onFetchDataClick()">fetch</button>
+    <button onclick="onFetchDataClick()">go</button>
 
     <!-- plattegrond -->
     <article class="plattegrond">
@@ -23,11 +24,6 @@
     </article>
   </main>
 
-  <!-- voettekst -->
-  <footer>
-    <hr>
-    <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
-  </footer>
 
   <!-- api scripts -->
   <script>
@@ -37,9 +33,18 @@
     var dagvuil;
     var uur = "00";
 
+    var BG = 0;
+    var ver1 = 1;
+    var ver2 = 2;
+
+    var plattegrond = BG;
+
     const alles = [
+    // { lokaal: "", link: "https://api.co2.creamcookies.net/hs/", CO2: null }  
       { lokaal: "B27", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%22", CO2: null },
-      { lokaal: "B42", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%406be403ac-bc6f-4d31-a4f4-4b97ed023f09&range=%22", CO2: null }
+      { lokaal: "B42", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%406be403ac-bc6f-4d31-a4f4-4b97ed023f09&range=%22", CO2: null },
+      { lokaal: "C14", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40e2882615-ad03-46c3-86c3-646243d1eae2&range=%22", CO2: null },
+      { lokaal: "C15", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40dc10ef78-8359-4bc2-9c09-7fa429744e66&range=%22", CO2: null }
     ];
 
 
@@ -67,6 +72,7 @@
       const datumVeldWaarde = document.getElementById("datum").value
       uur = document.getElementById("hourField").value
       uur = (uur < 10 ? '0' : '') + uur
+      console.log(uur);
       fetchData(datumVeldWaarde)
     }
 
@@ -77,27 +83,9 @@
       let CO2vuil = data.rows.find(r => r.ts.includes(`T${uur}`)).val // vuile formaat is String n:xxxx
       const CO2 = parseInt(CO2vuil.replace("n:", ""));  // haalt de n weg
       lokaalData.CO2 = CO2;
+      console.log(lokaalCensorData);
       console.log("Lokaal: " + lokaalData.lokaal, "CO2 waarde:" + lokaalData.CO2);
-      /*
-            for (let row in data) { // herhaal voor elke product
-              const product = data[row]
-              var name = product.name.substr(0, 35)
-              if(name.length < product.name.length) {
-                name = name + '...'
-              }
-              // voeg product toe aan DOM, 
-              // zodat deze zichtbaar wordt op de webpagina
-              const clone = template.content.cloneNode(true);
-              clone.querySelector(".product_title").textContent = name
-              clone.querySelector(".product_description").textContent =`${product.description.substr(0, 100)}...`
-              clone.querySelector(".product_price").textContent = `€ ${product.price.toFixed(2)}`
-              clone.querySelector(".product_code").textContent = product.code
-              clone.querySelector(".product_id").value = product.id
-              clone.querySelector(".product_id").dataset.json = JSON.stringify(product)
-              clone.querySelector(".product_image").src =`/images/${product.id}.jpg
-              container.appendChild(clone)
-            }
-      */
+
     }
 
   </script>
@@ -135,8 +123,11 @@
     };
 
     var tekenVerdiepingBG = function () {
-
-
+      /*
+      lokaal = alles.find(al => al.lokaal === "");
+      rect(, , , ); //
+      kleurtekenen(lokaal.CO2);
+      */
     };
 
     var tekenVerdieping1 = function () {
@@ -144,6 +135,7 @@
       image(verdieping1Img, 0, 0, width);
       //console.log(mouseX);
       //console.log(mouseY);
+
       let lokaal = alles.find(al => al.lokaal === "B42");
       rect(902, 147, 82, 43); //b42
       kleurtekenen(lokaal.CO2);
@@ -154,16 +146,34 @@
     };
 
     var tekenVerdieping2 = function () {
+      rect(0, 0, width, height);
+      image(verdieping2Img, 0, 0, width);
+     // console.log(mouseX);
+      //console.log(mouseY);
 
+      lokaal = alles.find(al => al.lokaal === "C14");
+      rect(968, 374, 70, 46); //c14
+      kleurtekenen(lokaal.CO2);
+
+      lokaal = alles.find(al => al.lokaal === "C15");
+      rect(1038, 363, 57, 57); //c15
+      kleurtekenen(lokaal.CO2);
     };
 
 
     function draw() {
-      tekenVerdieping1();
+
+      tekenVerdieping2();
 
     };
 
   </script>
+
+    <!-- voettekst -->
+    <footer>
+      <hr>
+      <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
+    </footer>
 
 
 </body>
