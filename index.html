@@ -14,8 +14,9 @@
     <label for="datum">Datum:</label>
     <input type="date" id="datum" name="datum">
     <label for="hour">Uur:</label>
-   <!-- <input type="time" id="hourField" name="hour" min="00" max="23"> -->
-    <input type="number" id="hourField" name="hour" min="00" max="23">
+    <input type="number" id="tijd" name="tijd" min="00" max="23">
+    <!--  <input type="time" id="hourField" name="hour" min="00" max="23"> -->
+
     <button onclick="onFetchDataClick()">go</button>
 
     <!-- plattegrond -->
@@ -40,11 +41,20 @@
     var plattegrond = BG;
 
     const alles = [
-    // { lokaal: "", link: "https://api.co2.creamcookies.net/hs/", CO2: null }  
-      { lokaal: "B27", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%22", CO2: null },
-      { lokaal: "B42", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%406be403ac-bc6f-4d31-a4f4-4b97ed023f09&range=%22", CO2: null },
-      { lokaal: "C14", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40e2882615-ad03-46c3-86c3-646243d1eae2&range=%22", CO2: null },
-      { lokaal: "C15", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40dc10ef78-8359-4bc2-9c09-7fa429744e66&range=%22", CO2: null }
+      // { lokaal: "", link: "https://api.co2.creamcookies.net/hs/", CO2: null },  
+      // { lokaal: "B27", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%408a9dd17c-d814-4739-861a-074787b527ed&range=%22", CO2: null, coordinaatX: [] },
+      //  { lokaal: "B42", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%406be403ac-bc6f-4d31-a4f4-4b97ed023f09&range=%22", CO2: null, coordinaatX: [] },
+
+      { lokaal: "C1", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40ea7b0abd-d369-4353-baba-529c3ea762bc&range=%22", CO2: null, coordinaatX: 361, coordinaatY: 426, coordinaatL: 57, coordinaatB: 44 },
+      { lokaal: "C6", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%409c7c718b-ea4e-4c89-a801-2d49d5e196b1&range=%22", CO2: null, coordinaatX: 532, coordinaatY: 426, coordinaatL: 57, coordinaatB: 44 },
+      { lokaal: "C14", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40e2882615-ad03-46c3-86c3-646243d1eae2&range=%22", CO2: null, coordinaatX: 968, coordinaatY: 374, coordinaatL: 70, coordinaatB: 46},
+      { lokaal: "C15", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40dc10ef78-8359-4bc2-9c09-7fa429744e66&range=%22", CO2: null, coordinaatX: 1039, coordinaatY: 363, coordinaatL: 57, coordinaatB: 57 },
+      { lokaal: "C17", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40d87fd0c9-6b76-4673-93a7-36f64ff5a846&range=%22", CO2: null, coordinaatX: 1039, coordinaatY: 281, coordinaatL: 57, coordinaatB: 55 },
+      { lokaal: "C18", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40a16caa09-bc42-416c-8ad9-c6bf393ec6ac&range=%22", CO2: null, coordinaatX: 939, coordinaatY: 281, coordinaatL: 70, coordinaatB: 44 },
+      { lokaal: "C25", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40fcf70045-35a1-4ba5-b800-c93b66978645&range=%22", CO2: null, coordinaatX: 533, coordinaatY: 332, coordinaatL: 57, coordinaatB: 44 },
+      { lokaal: "C26", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40904f1bb2-8b78-429c-aa64-deebeb3c148e&range=%22", CO2: null, coordinaatX: 476, coordinaatY: 332, coordinaatL: 57, coordinaatB: 44 },
+      { lokaal: "C27", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%4062f7fcda-b2e0-46e2-80e5-25d835b8dc31&range=%22", CO2: null, coordinaatX: 419, coordinaatY: 332, coordinaatL: 57, coordinaatB: 44 },
+
     ];
 
 
@@ -70,7 +80,7 @@
     function onFetchDataClick() {
       event.preventDefault()
       const datumVeldWaarde = document.getElementById("datum").value
-      uur = document.getElementById("hourField").value
+      uur = document.getElementById("tijd").value
       uur = (uur < 10 ? '0' : '') + uur
       console.log(uur);
       fetchData(datumVeldWaarde)
@@ -83,7 +93,7 @@
       let CO2vuil = data.rows.find(r => r.ts.includes(`T${uur}`)).val // vuile formaat is String n:xxxx
       const CO2 = parseInt(CO2vuil.replace("n:", ""));  // haalt de n weg
       lokaalData.CO2 = CO2;
-      console.log(lokaalCensorData);
+      // console.log(lokaalCensorData);
       console.log("Lokaal: " + lokaalData.lokaal, "CO2 waarde:" + lokaalData.CO2);
 
     }
@@ -116,7 +126,7 @@
           fill('rgba(250,165,0,.5)');//oranje
         };
 
-        if (CO2 < 800) {
+        if (CO2 < 700) {
           fill('rgba(0,250,0,.5)'); //groen
         };
       }
@@ -124,9 +134,9 @@
 
     var tekenVerdiepingBG = function () {
       /*
-      lokaal = alles.find(al => al.lokaal === "");
+      // lokaal = alles.find(al => al.lokaal === "");
       rect(, , , ); //
-      kleurtekenen(lokaal.CO2);
+      //kleurtekenen(lokaal.CO2);
       */
     };
 
@@ -148,16 +158,77 @@
     var tekenVerdieping2 = function () {
       rect(0, 0, width, height);
       image(verdieping2Img, 0, 0, width);
-     // console.log(mouseX);
-      //console.log(mouseY);
+      // console.log(mouseX);
+      // console.log(mouseY);
 
-      lokaal = alles.find(al => al.lokaal === "C14");
-      rect(968, 374, 70, 46); //c14
-      kleurtekenen(lokaal.CO2);
+      /* lokaal = alles.find(al => al.lokaal === "C1");
+       rect(361, 426, 57, 44); // c1
+       kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "C2");
+       rect(418, 426, 57, 44); // c2
+       //kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "C5");
+       rect(475, 426, 57, 44); // c5
+       //kleurtekenen(lokaal.CO2);
+ 
+        lokaal = alles.find(al => al.lokaal === "C6");
+       rect(532, 426, 57, 44); // c6
+       kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "C8");
+       rect(589, 395, 56, 75); // c8
+       //kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "C10");
+       rect(729, 350, 55, 46); // c10
+       //kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "C12");
+       rect(856, 350, 69, 46); // c12
+       //kleurtekenen(lokaal.CO2);
+ 
+       lokaal = alles.find(al => al.lokaal === "C14");
+       rect(968, 374, 70, 46); //c14
+       kleurtekenen(lokaal.CO2);
+ 
+       lokaal = alles.find(al => al.lokaal === "C15");
+       rect(1038, 363, 57, 57); //c15
+       kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "BINAS-LAB");
+       rect(729,255, 98, 77); // c22, binaslab
+       //kleurtekenen(lokaal.CO2);
+ 
+       noFill()
+       //lokaal = alles.find(al => al.lokaal === "C23");
+       rect(645, 332, 64, 44); // c23
+       // kleurtekenen(lokaal.CO2);
+ 
+       // lokaal = alles.find(al => al.lokaal === "C24");
+       rect(590, 332, 55, 44); // c24
+       //kleurtekenen(lokaal.CO2);
+ 
+       lokaal = alles.find(al => al.lokaal === "C25");
+       rect(533, 332, 57, 44); // c25
+       kleurtekenen(lokaal.CO2);
+ 
+       lokaal = alles.find(al => al.lokaal === "C26");
+       rect(476, 332, 57, 44); // c26
+       kleurtekenen(lokaal.CO2);
+ 
+       lokaal = alles.find(al => al.lokaal === "C27");
+       rect(419, 332, 57, 44); // c26
+       kleurtekenen(lokaal.CO2);
+       */
 
-      lokaal = alles.find(al => al.lokaal === "C15");
-      rect(1038, 363, 57, 57); //c15
-      kleurtekenen(lokaal.CO2);
+      for (var i = 0; i < alles.length; i++) {
+          lokaal = alles.find(al => al.lokaal === alles[i].lokaal);
+          kleurtekenen(lokaal.CO2);
+          rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
+      };
+
     };
 
 
@@ -169,11 +240,11 @@
 
   </script>
 
-    <!-- voettekst -->
-    <footer>
-      <hr>
-      <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
-    </footer>
+  <!-- voettekst -->
+  <footer>
+    <hr>
+    <p>Het maken van deze website is een opdracht voor het vak informatica op het Emmauscollege Rotterdam.</p>
+  </footer>
 
 
 </body>
