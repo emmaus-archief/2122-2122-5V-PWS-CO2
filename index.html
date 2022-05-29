@@ -23,8 +23,13 @@
     <article class="plattegrond">
       hier komt een plattegrond, open console in browser om ingelezen waarden te zien
     </article>
-  </main>
 
+    <div class="verdiepingen">
+      <button onclick="openVerdieping(BG)">verdieping BG</button>
+      <button onclick="openVerdieping(ver1)">verdieping 1</button>
+      <button onclick="openVerdieping(ver2)">verdieping 2</button>
+    </div>
+  </main>
 
   <!-- api scripts -->
   <script>
@@ -38,7 +43,7 @@
     var ver1 = 1;
     var ver2 = 2;
 
-    var plattegrond = BG;
+    var plattegrond = ver1;
 
     const alles = [
       // { lokaal: "", link: "https://api.co2.creamcookies.net/hs/", CO2: null, coordinaatX: , coordinaatY: , coordinaatL: , coordinaatB:  },  
@@ -98,12 +103,11 @@
     // nadat de API is aangeroepen
     function showProducts(lokaalCensorData, lokaalData) {
       let data = JSON.parse(lokaalCensorData) // vertaal response van API naar array met producten
-      let CO2vuil = data.rows.find(r => r.ts.includes(`T${uur}`)).val // vuile formaat is String n:xxxx
-      const CO2 = parseInt(CO2vuil.replace("n:", ""));  // haalt de n weg
-      lokaalData.CO2 = CO2;
-      // console.log(lokaalCensorData);
+      const alleCO2Waarde = data.rows.filter(r => r.ts.includes(`T${uur}`)).map(r => +r.val.replace("n:", "")); // haalt alle CO2 waarde uit van het gegeven uur
+      const CO2Gemiddeld = alleCO2Waarde.reduce((a, b) => a + b, 0) / alleCO2Waarde.length; // haalt gemiddelde uit van de gegeven uur
+      lokaalData.CO2 = CO2Gemiddeld;
       console.log("Lokaal: " + lokaalData.lokaal, "CO2 waarde:" + lokaalData.CO2);
-
+      openVerdieping(plattegrond)
     }
 
   </script>
@@ -141,6 +145,8 @@
     };
 
     var tekenVerdiepingBG = function () {
+      rect(0, 0, width, height);
+      image(beganegrondImg, 0, 0, width);
       /*
       // lokaal = alles.find(al => al.lokaal === "");
       rect(, , , ); //
@@ -161,6 +167,7 @@
       lokaal = alles.find(al => al.lokaal === "B27");
       rect(369, 238, 52, 91); //b27
       kleurtekenen(lokaal.CO2);
+
     };
 
     var tekenVerdieping2 = function () {
@@ -170,24 +177,40 @@
       // console.log(mouseX);
       // console.log(mouseY);
 
-      
-        for (var i = 0; i < alles.length; i++) {
-          lokaal = alles.find(al => al.lokaal === alles[i].lokaal);
-          // lokaalF = lokaal.replace(/\d$/, '');
-          // console.log(lokaalF);
-          //if (lokaalF === "C") {
-          kleurtekenen(lokaal.CO2);
-          rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
-         // };
+
+      for (var i = 0; i < alles.length; i++) {
+        lokaal = alles.find(al => al.lokaal === alles[i].lokaal);
+        // lokaalF = lokaal.replace(/\d$/, '');
+        // console.log(lokaalF);
+        //if (lokaalF === "C") {
+        kleurtekenen(lokaal.CO2);
+        rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
+        // };
       };
     };
 
+    function openVerdieping(plat) {
+      switch (plat) {
+        case ver2:
+          plattegrond = ver2
+          tekenVerdieping2();
+          break;
+        case ver1:
+          plattegrond = ver1
+          tekenVerdieping1();
+          break;
+        case BG:
+          plattegrond = BG
+          tekenVerdiepingBG();
+          break;
+        default:
+          break;
+      }
+    }
 
     function draw() {
-
-      tekenVerdieping2();
-
-    };
+      openVerdieping(plattegrond)
+    }
 
   </script>
 
