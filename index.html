@@ -171,11 +171,12 @@
 
       for (var i = 0; i < alles.length; i++) {
         lokaal = alles.find(al => al.lokaal === alles[i].lokaal);
-        // lokaalF = lokaal.replace(/\d$/, '');
-        // console.log(lokaalF);
-        //if (lokaalF === "C") {
-        kleurtekenen(lokaal.CO2);
-        rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
+        // let pattern = /C/;
+        // let lokaalC = pattern.test(alles[i].lokaal);
+        // console.log(lokaalC);
+        // if (lokaalC === true) {
+          kleurtekenen(lokaal.CO2);
+          rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
         // };
       };
     };
