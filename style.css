@@ -2,16 +2,68 @@
 
 
 /* index.html */
-.plattegrond {
-    background-color: orange;
+h1 {
+    border-style: none;
+    border-left: 15px;
+    border-left-style: solid;
+    border-color: sandybrown;
+    background-color: rgba(244, 164, 96, 0.3);
+    padding: 3px;
 }
 
-.p5Canvas{
-    width: auto;
-    
+.plattegrond {
+    border-bottom: 1px;
+    border-bottom-style: solid;
+    border-color: sandybrown;
+    padding: 2px;
+    margin-top: 5px;
+}
+
+#go {
+    background-color: sandybrown; 
+    border: none;
+    color: white;
+    padding: 2px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+.verdiepingen {
+    margin-top: 5px;
+}
+
+.p5Canvas {
+    /* zorg dat canvas niet groter wordt dan window
+     en behoud breedte x hoogte verhouding van 1280x720 
+   */
+    max-width: min(100vh*1280/720, 100vw);
+    max-height: min(100vw*720/1280, 100vh);
+
+    margin: 20 px;
+
+    /* zet canvas in het midden
+   */
+    display: block;
+
+    position: relative;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    margin-bottom: 100px;
+
+    border-style: solid;
+    border-width: 2px;
+
 }
 
 .sensor-paginas {
     /* display:none;  verberg sensorpagina's */
-    display:block;  /* toon sensorpagina's, handig om te debuggen */
+    display: block;
+    /* toon sensorpagina's, handig om te debuggen */
 }
