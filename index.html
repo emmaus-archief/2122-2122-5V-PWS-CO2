@@ -17,7 +17,7 @@
     <input type="number" id="tijd" name="tijd" min="00" max="23">
     <!--  <input type="time" id="hourField" name="hour" min="00" max="23"> -->
 
-    <button id = "go" onclick="onFetchDataClick()">go</button>
+    <button id="go" onclick="onFetchDataClick()">go</button>
 
     <!-- plattegrond -->
     <article class="plattegrond">
@@ -25,9 +25,9 @@
     </article>
 
     <div class="verdiepingen">
-      <button onclick="openVerdieping(BG)">verdieping BG</button>
-      <button onclick="openVerdieping(ver1)">verdieping 1</button>
-      <button onclick="openVerdieping(ver2)">verdieping 2</button>
+      <button class="btn" onclick="openVerdieping(BG)">verdieping BG</button>
+      <button class="btn active" onclick="openVerdieping(ver1)">verdieping 1</button>
+      <button class="btn" onclick="openVerdieping(ver2)">verdieping 2</button>
     </div>
 
     <!-- voettekst -->
@@ -104,33 +104,23 @@
 
     ];
 
-
-
-
-    function fetchData(dag) {
+    function fetchData(dag, onload) {
       for (let i = 0; i < alles.length; i++) {
         if (dag) {
-          var request = new XMLHttpRequest()
+          const request = new XMLHttpRequest()
           request.open('GET', alles[i].link + dag + '%22', true) // Link verschilt per sensor en kan worden gevonden in de ontwikkelmodus van de browser bij het laden van de pagina op de QR-code
           request.setRequestHeader('Content-Type', 'application/json')
           request.setRequestHeader('Authorization', 'lkDvA5MDW8vA#N5XVV8vkvA5AqJX*1') // Authorization is in de praktijk hetzelfde voor alle sensoren
           request.setRequestHeader('x-iot-unica-tenantid', '4c4411d0-1947-4fc5-8bd3-08d945fda0ae') // tenantid is in de praktijk hetzelfde voor alle sensoren binnen onze school
           request.onload = function () {
             // de functie showProducts wordt aangeroepen als er antwoord van de API is
-            showProducts(this.response, alles[i])
+            onload(this.response, alles[i])
           }
           request.send()
         }
       }
     };
 
-    function onFetchDataClick() {
-      event.preventDefault()
-      const datumVeldWaarde = document.getElementById("datum").value
-      uur = document.getElementById("tijd").value
-      uur = (uur < 10 ? '0' : '') + uur
-      fetchData(datumVeldWaarde)
-    }
 
     // deze functie zet de producten op het scherm
     // nadat de API is aangeroepen
@@ -140,9 +130,37 @@
       const CO2Gemiddeld = alleCO2Waarde.reduce((a, b) => a + b, 0) / alleCO2Waarde.length; // haalt gemiddelde uit van de gegeven uur
       lokaalData.CO2 = CO2Gemiddeld;
       console.log("Lokaal: " + lokaalData.lokaal, "CO2 waarde:" + lokaalData.CO2);
-      openVerdieping(plattegrond)
     }
 
+    function fetchLaatste() {
+      const dag = document.getElementById("datum").value
+      uur = document.getElementById("tijd").value
+      uur = (uur < 10 ? '0' : '') + uur
+      fetchData(dag, showLaatste);
+    };
+
+
+    // deze functie zet de producten op het scherm
+    // nadat de API is aangeroepen
+    function showLaatste(lokaalCensorData, lokaalData) {
+      let data = JSON.parse(lokaalCensorData) // vertaal response van API naar array met producten
+      if (data.rows && data.rows?.length) {
+        const laatsteUur = data.rows[data.rows.length - 1].ts.split("T")[1].substring(0, 2)
+        const alleCO2Waarde = data.rows.filter(r => r.ts.includes(`T${laatsteUur}`)).map(r => +r.val.replace("n:", "")); // haalt alle CO2 waarde uit van het gegeven uur
+        const CO2Gemiddeld = alleCO2Waarde.reduce((a, b) => a + b, 0) / alleCO2Waarde.length; // haalt gemiddelde uit van de gegeven uur
+        lokaalData.CO2 = CO2Gemiddeld;
+        console.log("Lokaal: " + lokaalData.lokaal, "CO2 waarde:" + lokaalData.CO2);
+      }
+    }
+
+
+    function onFetchDataClick() {
+      event.preventDefault()
+      const datumVeldWaarde = document.getElementById("datum").value
+      uur = document.getElementById("tijd").value
+      uur = (uur < 10 ? '0' : '') + uur
+      fetchData(datumVeldWaarde, showProducts)
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"> </script>
@@ -155,6 +173,17 @@
       beganegrondImg = loadImage('afbeeldingen/beganegrond.png');
       verdieping1Img = loadImage('afbeeldingen/verdieping1.png');
       verdieping2Img = loadImage('afbeeldingen/verdieping2.png');
+    }
+
+    // Voor logica uit wanneer pagina geladen is
+    window.onload = () => {
+      // laat de waardes van vandaag zien
+      const vandaag = new Date();
+      document.getElementById('datum').valueAsDate = vandaag;
+      document.getElementById("tijd").value = vandaag.getHours() - 2 // waardes lopen 2 uren achter
+      fetchLaatste();
+      // maak uur veld leeg na het laden
+      document.getElementById("tijd").value = ""
     }
 
     function setup() {
@@ -180,8 +209,8 @@
     var tekenVerdiepingBG = function () {
       rect(0, 0, width, height);
       image(beganegrondImg, 0, 0, width);
-      console.log(mouseX);
-      console.log(mouseY);
+      // console.log(mouseX);
+      // console.log(mouseY);
 
       for (var i = 0; i < alles.length; i++) {
         lokaal = alles.find(al => al.lokaal === alles[i].lokaal);
@@ -189,6 +218,11 @@
         let lokaalA = pattern.test(alles[i].lokaal);
         // console.log(lokaalC);
         if (lokaalA === true) {
+          if (lokaal.CO2) {
+            fill('#222222');
+            textStyle(BOLD)
+            text(lokaal.CO2.toString().split(".")[0], alles[i].coordinaatX + alles[i].coordinaatL / 3, alles[i].coordinaatY + alles[i].coordinaatB / 4 + 1)
+          }
           kleurtekenen(lokaal.CO2);
           rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
         };
@@ -198,8 +232,8 @@
     var tekenVerdieping1 = function () {
       rect(0, 0, width, height);
       image(verdieping1Img, 0, 0, width);
-      console.log(mouseX);
-      console.log(mouseY);
+      // console.log(mouseX);
+      // console.log(mouseY);
       noFill();
 
       for (var i = 0; i < alles.length; i++) {
@@ -208,6 +242,11 @@
         let lokaalB = pattern.test(alles[i].lokaal);
         // console.log(lokaalB);
         if (lokaalB === true) {
+          if (lokaal.CO2) {
+            fill('#222222');
+            textStyle(BOLD)
+            text(lokaal.CO2.toString().split(".")[0], alles[i].coordinaatX + alles[i].coordinaatL / 3, alles[i].coordinaatY + alles[i].coordinaatB / 4 + 1)
+          }
           kleurtekenen(lokaal.CO2);
           rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
         };
@@ -228,6 +267,11 @@
         let lokaalC = pattern.test(alles[i].lokaal);
         // console.log(lokaalC);
         if (lokaalC === true) {
+          if (lokaal.CO2) {
+            fill('#222222');
+            textStyle(BOLD)
+            text(lokaal.CO2.toString().split(".")[0], alles[i].coordinaatX + alles[i].coordinaatL / 3, alles[i].coordinaatY + alles[i].coordinaatB / 4 + 1)
+          }
           kleurtekenen(lokaal.CO2);
           rect(alles[i].coordinaatX, alles[i].coordinaatY, alles[i].coordinaatL, alles[i].coordinaatB);
         };
@@ -251,6 +295,19 @@
         default:
           break;
       }
+
+      // haal alle verdieping knoppen op
+      const btnContainer = document.getElementsByClassName("verdiepingen")[0];
+      const btns = btnContainer.getElementsByClassName("btn");
+
+      // Voor elk knop haal en verwijder active class naam op basis van de geklikde knop
+      for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+          const current = document.getElementsByClassName("active");
+          current[0].className = current[0].className.replace(" active", "");
+          this.className += " active";
+        });
+      }
     }
 
     function draw() {
@@ -258,10 +315,6 @@
     }
 
   </script>
-
-
-
-
 </body>
 
 </html>
