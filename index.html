@@ -30,6 +30,10 @@
       <button class="btn" onclick="openVerdieping(ver2)">verdieping 2</button>
     </div>
 
+    <div id="myCanvasContainer">
+
+    </div>
+
     <!-- voettekst -->
     <footer>
       <hr>
@@ -50,6 +54,8 @@
     var ver2 = 2;
 
     var plattegrond = ver1;
+
+    var myCanvas;
 
     const alles = [
       // { lokaal: "", link: "https://api.co2.creamcookies.net/hs/", CO2: null, coordinaatX: , coordinaatY: , coordinaatL: , coordinaatB:  },
@@ -115,7 +121,7 @@
       { lokaal: "C6", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%409c7c718b-ea4e-4c89-a801-2d49d5e196b1&range=%22", CO2: null, coordinaatX: 532, coordinaatY: 426, coordinaatL: 57, coordinaatB: 44 },
       // { lokaal: "C08", link: "https://api.co2.creamcookies.net/hs/", CO2: null, coordinaatX: 589, coordinaatY: 395, coordinaatL: 56, coordinaatB: 75 },  
       // { lokaal: "C10", link: "https://api.co2.creamcookies.net/hs/", CO2: null, coordinaatX: 729, coordinaatY: 350, coordinaatL: 55, coordinaatB: 46 },
-      { lokaal: "C12", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%4000c990a1-99ea-40fb-932c-f46c8b076b3e&range=%22", CO2: null, coordinaatX: 856, coordinaatY: 350, coordinaatL: 69, coordinaatB: 46 },    
+      { lokaal: "C12", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%4000c990a1-99ea-40fb-932c-f46c8b076b3e&range=%22", CO2: null, coordinaatX: 856, coordinaatY: 350, coordinaatL: 69, coordinaatB: 46 },
       { lokaal: "C14", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40e2882615-ad03-46c3-86c3-646243d1eae2&range=%22", CO2: null, coordinaatX: 968, coordinaatY: 375, coordinaatL: 71, coordinaatB: 45 },
       // { lokaal: "BINAS-LAB", link: "https://api.co2.creamcookies.net/hs/", CO2: null, coordinaatX: 729, coordinaatY: 255, coordinaatL: 98, coordinaatB: 77 },  
       { lokaal: "C15", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%40dc10ef78-8359-4bc2-9c09-7fa429744e66&range=%22", CO2: null, coordinaatX: 1039, coordinaatY: 363, coordinaatL: 57, coordinaatB: 57 },
@@ -128,6 +134,8 @@
       { lokaal: "C27", link: "https://api.co2.creamcookies.net/hs/hisRead?id=%4062f7fcda-b2e0-46e2-80e5-25d835b8dc31&range=%22", CO2: null, coordinaatX: 419, coordinaatY: 332, coordinaatL: 57, coordinaatB: 44 },
 
     ];
+
+    setInterval(onFetchDataClick, 5 * 60 * 1000); // laad elke 5 minuten de data opnieuw.
 
     function fetchData(dag, onload) {
       for (let i = 0; i < alles.length; i++) {
@@ -189,7 +197,7 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"> </script>
-  <script>
+  <script id="abcdef">
     var beganegrondImg;
     var verdieping1Img;
     var verdieping2Img;
@@ -212,7 +220,8 @@
     }
 
     function setup() {
-      createCanvas(1280, 720);
+      myCanvas = createCanvas(1280, 720);
+      myCanvas.parent('myCanvasContainer');
     };
 
     var kleurtekenen = function (CO2) {
